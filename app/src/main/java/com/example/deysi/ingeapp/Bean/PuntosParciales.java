@@ -5,11 +5,16 @@
  */
 package com.example.deysi.ingeapp.Bean;
 
+import android.content.ContentValues;
+
+import com.example.deysi.ingeapp.BaseDeDatos.Datos;
+import com.example.deysi.ingeapp.Bean.interfaces.Guardable;
+
 /**
  *
  * @author Martin
  */
-public class PuntosParciales {
+public class PuntosParciales extends Listable implements Guardable{
     private final int id;
     private final Materia materia;
     private int porcentaje;
@@ -42,8 +47,44 @@ public class PuntosParciales {
         return id;
     }
 
-    public Materia getMateria() {
-        return materia;
+    @Override
+    public String getTabla() {
+        return "puntosparciales";
+    }
+
+    @Override
+    public ContentValues getValues() {
+        ContentValues v = new ContentValues();
+        v.put("idpuntosparciales", getId());
+        v.put("fecha", getFecha());
+        v.put("puntaje", getPorcentaje());
+        v.put("materia", getMateria());
+        v.put("alumno_idalumno", Datos.ALUMNO.getId());
+        return v;
+    }
+
+    @Override
+    public String getTitulo() {
+        return "PP: "+porcentaje+"%";
+    }
+
+    @Override
+    public String getFecha() {
+        return anho;
+    }
+
+    @Override
+    public char getTipo() {
+        return Listable.PP;
+    }
+
+    @Override
+    public int getSemestre() {
+        return materia.getSemestre();
+    }
+
+    public String getMateria() {
+        return materia.getTitulo();
     }
 
     @Override

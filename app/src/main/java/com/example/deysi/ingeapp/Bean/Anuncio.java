@@ -5,6 +5,10 @@
  */
 package com.example.deysi.ingeapp.Bean;
 
+import android.content.ContentValues;
+
+import com.example.deysi.ingeapp.Bean.interfaces.Guardable;
+
 /**
  *
  * @author Martin

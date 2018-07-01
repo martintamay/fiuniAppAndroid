@@ -5,18 +5,27 @@
  */
 package com.example.deysi.ingeapp.Bean;
 
+import android.content.ContentValues;
+
+import com.example.deysi.ingeapp.Bean.interfaces.Guardable;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 /**
  *
  * @author Martin
  */
-public class Alumno {
+public class Alumno implements Guardable{
     private final int id;
-    private String nombre;
+    private String nombre, ci, correo, contrasenha, fecha_creacion;
+    private int ingreso, carrera_idcarrera;
     private final ArrayList<Nota> notas;
     private final ArrayList<PuntosParciales> pp;
     private final ArrayList<Anuncio> anuncios;
+    private final ArrayList<Materia> materias;
     
     
     /**
@@ -31,6 +40,30 @@ public class Alumno {
         notas = new ArrayList();
         pp = new ArrayList(); 
         anuncios = new ArrayList();
+        materias = new ArrayList();
+    }
+
+    public Alumno(JSONObject jsonObject) throws JSONException {
+        this.id = jsonObject.getInt("idalumno");
+        this.nombre = jsonObject.getString("nombres");
+        notas = new ArrayList();
+        pp = new ArrayList();
+        anuncios = new ArrayList();
+        materias = new ArrayList();
+    }
+
+    public void setMateria(Materia materia){
+        if(!materias.contains(materia)){
+            materias.add(materia);
+        }
+    }
+
+    public ArrayList<Materia> getMaterias(){
+        return materias;
+    }
+
+    public void removerMateria(Materia materia){
+        materias.remove(materia);
     }
 
     public String getNombre() {
@@ -43,6 +76,24 @@ public class Alumno {
 
     public int getId() {
         return id;
+    }
+
+    @Override
+    public String getTabla() {
+        return "alumno";
+    }
+
+    @Override
+    public ContentValues getValues() {
+        ContentValues v = new ContentValues();
+        v.put("idalumno", getId());
+        v.put("nombres", getNombre());
+        v.put("ci", ci);
+        v.put("correo", correo);
+        v.put("contrasenha", contrasenha);
+        v.put("ingreso", ingreso);
+        v.put("carrera_idcarrera", carrera_idcarrera);
+        return v;
     }
 
     public ArrayList<Nota> getNotas() {

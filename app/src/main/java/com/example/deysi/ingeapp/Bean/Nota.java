@@ -5,11 +5,18 @@
  */
 package com.example.deysi.ingeapp.Bean;
 
+import android.content.ContentValues;
+
+import com.example.deysi.ingeapp.BaseDeDatos.Datos;
+import com.example.deysi.ingeapp.Bean.interfaces.Guardable;
+
+import org.json.JSONObject;
+
 /**
  *
  * @author Martin
  */
-public class Nota {
+public class Nota extends Listable implements Guardable{
     private final int id, mesa;
     private final Materia materia;
     private int nota;
@@ -21,6 +28,10 @@ public class Nota {
         this.nota = nota;
         this.fecha = fecha;
         this.mesa = mesa;
+    }
+
+    public Nota(JSONObject jnota) {
+        //todo: agregar nota desde json
     }
 
     public int getMesa() {
@@ -35,8 +46,23 @@ public class Nota {
         this.nota = nota;
     }
 
+    @Override
+    public String getTitulo() {
+        return "Mesa:"+mesa+" Nota: "+nota;
+    }
+
     public String getFecha() {
         return fecha;
+    }
+
+    @Override
+    public char getTipo() {
+        return Listable.NOTA;
+    }
+
+    @Override
+    public int getSemestre() {
+        return materia.getSemestre();
     }
 
     public void setFecha(String fecha) {
@@ -47,8 +73,8 @@ public class Nota {
         return id;
     }
 
-    public Materia getMateria() {
-        return materia;
+    public String getMateria() {
+        return materia.getTitulo();
     }
 
     @Override
@@ -83,5 +109,20 @@ public class Nota {
     public String toString() {
         return "Nota{" + "id=" + id + ", materia=" + materia + ", nota=" + nota + ", fecha=" + fecha + '}';
     }
-    
+
+    @Override
+    public String getTabla() {
+        return "notas";
+    }
+
+    @Override
+    public ContentValues getValues() {
+        ContentValues v = new ContentValues();
+        v.put("idnotas", getId());
+        v.put("fecha", getFecha());
+        v.put("puntaje", getNota());
+        v.put("materia", getMateria());
+        v.put("alumno_idalumno", Datos.ALUMNO.getId());
+        return v;
+    }
 }

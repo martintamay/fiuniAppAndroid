@@ -9,7 +9,7 @@ package com.example.deysi.ingeapp.Bean;
  *
  * @author Martin
  */
-public class Materia {
+public class Materia extends Listable {
     private final int id;
     private int semestre;
     private char carrera;
@@ -21,10 +21,31 @@ public class Materia {
         this.carrera = carrera;
         this.nombre = nombre;
     }
-    
+
+    @Override
+    public String getTitulo() {
+        return nombre;
+    }
+
+    @Override
+    public String getFecha() {
+        return "";
+    }
+
+    @Override
+    public char getTipo() {
+        return Listable.MATERIA;
+    }
+
+    @Override
+    public String getMateria() {
+        return nombre;
+    }
+
     public int getSemestre() {
         return semestre;
     }
+
 
     public void setSemestre(int semestre) {
         this.semestre = semestre;
