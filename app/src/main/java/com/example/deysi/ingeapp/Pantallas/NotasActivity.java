@@ -6,6 +6,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.example.deysi.ingeapp.Adapters.NotasAdapter;
+import com.example.deysi.ingeapp.BaseDeDatos.Datos;
 import com.example.deysi.ingeapp.Bean.Alumno;
 import com.example.deysi.ingeapp.Bean.Listable;
 import com.example.deysi.ingeapp.Bean.Materia;
@@ -17,25 +18,21 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class NotasActivity extends AppCompatActivity {
-    /*TODO obtener de la base de datos*/
-    private static Alumno alumno = new Alumno(1, "Martín", "Tamay");
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notas);
         setTitle("Notas");
         //todo quitar
-        try {
+        /*try {
             setearAlumno(alumno);
-        } catch (Exception e) {}
+        } catch (Exception e) {}*/
         setearReferencias();
     }
 
     private void setearReferencias() {
         ListView lv = (ListView) findViewById(R.id.notas_lista);
-        lv.setAdapter(new NotasAdapter(this, obtenerLista(alumno)));
+        lv.setAdapter(new NotasAdapter(this, obtenerLista(Datos.ALUMNO)));
     }
 
     private ArrayList<Listable> obtenerLista(Alumno alumno) {
@@ -44,7 +41,7 @@ public class NotasActivity extends AppCompatActivity {
         ArrayList<Nota> notas = alumno.getNotas();
         ArrayList<PuntosParciales> pps = alumno.getPp();
         ArrayList<Integer> semestres = new ArrayList();
-         for (int i=0; i<notas.size(); i++){
+        for (int i=0; i<notas.size(); i++){
             if (!semestres.contains(notas.get(i).getSemestre())){
                 semestres.add(notas.get(i).getSemestre());
             }

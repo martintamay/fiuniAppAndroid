@@ -20,31 +20,21 @@
         android:textStyle="bold" />
 
     <TextView
-        android:layout_width="fill_parent"
+        android:id="@+id/perfil_t_anho_ingreso"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Apellido: Santa Cruz Bareiro"
-        android:id="@+id/textView"
-        android:textStyle="bold"
+        android:layout_alignStart="@+id/perfil_t_nombre"
         android:layout_below="@+id/perfil_t_nombre"
-        android:layout_alignParentStart="true" />
+        android:text="Año Ingreso: 2014"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
+        android:id="@+id/perfil_t_ci"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Semestre: 5to"
-        android:id="@+id/textView2"
-        android:layout_below="@+id/textView"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_alignStart="@+id/perfil_t_nombre"
+        android:layout_below="@+id/perfil_t_anho_ingreso"
         android:text="CI: 4.555.555"
-        android:id="@+id/textView3"
-        android:layout_below="@+id/textView2"
-        android:layout_alignParentStart="true" />
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
 </RelativeLayout>

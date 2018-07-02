@@ -20,8 +20,8 @@ import java.util.ArrayList;
  */
 public class Alumno implements Guardable{
     private final int id;
-    private String nombre, ci, correo, contrasenha, fecha_creacion;
-    private int ingreso, carrera_idcarrera;
+    private String nombre, ci, correo, contrasenha, fecha_creacion, carrera;
+    private int ingreso;
     private final ArrayList<Nota> notas;
     private final ArrayList<PuntosParciales> pp;
     private final ArrayList<Anuncio> anuncios;
@@ -43,9 +43,22 @@ public class Alumno implements Guardable{
         materias = new ArrayList();
     }
 
+    public Alumno(int id, String nombres, String ci, String correo, int ingreso, String carrera){
+        this(id, nombres);
+        this.ci = ci;
+        this.correo = correo;
+        this.ingreso = ingreso;
+        this.carrera = carrera;
+    }
+
     public Alumno(JSONObject jsonObject) throws JSONException {
-        this.id = jsonObject.getInt("idalumno");
-        this.nombre = jsonObject.getString("nombres");
+        this.id = jsonObject.getInt("id");
+        this.ingreso = jsonObject.getInt("entry_year");
+        this.carrera = jsonObject.getJSONObject("career").getString("description");
+        JSONObject per = jsonObject.getJSONObject("person");
+        this.nombre = per.getString("names");
+        this.correo = per.getString("email");
+        this.ci = per.getString("ci");
         notas = new ArrayList();
         pp = new ArrayList();
         anuncios = new ArrayList();
@@ -74,6 +87,13 @@ public class Alumno implements Guardable{
         this.nombre = nombre;
     }
 
+    public int getIngreso(){
+        return ingreso;
+    }
+    public String getCi() {
+        return ci;
+    }
+
     public int getId() {
         return id;
     }
@@ -90,9 +110,8 @@ public class Alumno implements Guardable{
         v.put("nombres", getNombre());
         v.put("ci", ci);
         v.put("correo", correo);
-        v.put("contrasenha", contrasenha);
         v.put("ingreso", ingreso);
-        v.put("carrera_idcarrera", carrera_idcarrera);
+        v.put("carrera", carrera);
         return v;
     }
 
@@ -109,20 +128,25 @@ public class Alumno implements Guardable{
         return "Alumno{" + "id=" + id + ", nombre=" + nombre  + ", notas=" + notas + ", pp=" + pp + '}';
     }
     
-    public void agregarNota(Nota n) throws Exception{
-        if(this.notas.contains(n)){
-            throw new Exception("Nota Duplicada");
-        }else{
-            this.notas.add(n);
+    public void agregarNota(Nota n){
+        if(this.notas.contains(n)) {
+            notas.remove(n);
         }
+        this.notas.add(n);
     }
     
-    public void agregarPp(PuntosParciales p) throws Exception{
+    public void agregarPp(PuntosParciales p){
         if(this.pp.contains(p)){
-            throw new Exception("PP Duplicado");
-        }else{
-            this.pp.add(p);
+            pp.remove(p);
         }
+        this.pp.add(p);
+    }
+
+    public void agregarMateria(Materia m) {
+        if(this.materias.contains(m)){
+            materias.remove(m);
+        }
+        materias.add(m);
     }
     
     public void agregarAnuncio(Anuncio a) throws Exception{
@@ -131,5 +155,17 @@ public class Alumno implements Guardable{
         }else{
             this.anuncios.add(a);
         }
+    }
+
+    public Materia getMateria(int idmateria) {
+        int index = materias.indexOf(new Materia(idmateria));
+        if (index >= 0){
+            return materias.get(index);
+        }
+        return null;
+    }
+
+    public String getCorreo() {
+        return correo;
     }
 }

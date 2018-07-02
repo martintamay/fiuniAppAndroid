@@ -10,6 +10,11 @@ import android.content.ContentValues;
 import com.example.deysi.ingeapp.BaseDeDatos.Datos;
 import com.example.deysi.ingeapp.Bean.interfaces.Guardable;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Date;
+
 /**
  *
  * @author Martin
@@ -25,6 +30,17 @@ public class PuntosParciales extends Listable implements Guardable{
         this.materia = materia;
         this.porcentaje = porcentaje;
         this.anho = anho;
+    }
+
+    public PuntosParciales(int id, int idmateria, int porcentaje, String anho) {
+        this(id, Datos.ALUMNO.getMateria(idmateria), porcentaje, anho);
+    }
+
+    public PuntosParciales(JSONObject jnota) throws JSONException {
+        id = jnota.getInt("id");
+        porcentaje = jnota.getInt("percentage");
+        anho = jnota.getString("takenDate").substring(0, 4);
+        materia = Datos.ALUMNO.getMateria(jnota.getJSONObject("taken").getInt("subject_id"));
     }
 
     public int getPorcentaje() {
@@ -58,8 +74,7 @@ public class PuntosParciales extends Listable implements Guardable{
         v.put("idpuntosparciales", getId());
         v.put("fecha", getFecha());
         v.put("puntaje", getPorcentaje());
-        v.put("materia", getMateria());
-        v.put("alumno_idalumno", Datos.ALUMNO.getId());
+        v.put("materias_idmaterias", materia.getId());
         return v;
     }
 
@@ -107,9 +122,6 @@ public class PuntosParciales extends Listable implements Guardable{
         }
         final PuntosParciales other = (PuntosParciales) obj;
         if (this.id != other.id) {
-            return false;
-        }
-        if(!this.anho.equals(other.anho) && !this.materia.equals(other.materia)){
             return false;
         }
         return true;

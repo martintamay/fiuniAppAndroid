@@ -41,25 +41,31 @@ public class DBHelper extends SQLiteOpenHelper {
             "  nombres TEXT NOT NULL,\n" +
             "  ci TEXT NOT NULL,\n" +
             "  correo TEXT NOT NULL,\n" +
-            "  contrasenha TEXT NOT NULL,\n" +
             "  ingreso INT NOT NULL,\n" +
             "  carrera TEXT NOT NULL,\n" +
             "  PRIMARY KEY (idalumno))",
+
+
+            "CREATE TABLE materias (\n" +
+            "  idmaterias INT NOT NULL,\n" +
+            "  semestre TEXT NOT NULL,\n" +
+            "  nombre TEXT NOT NULL,\n" +
+            "  carrera TEXT NOT NULL,\n" +
+            "  PRIMARY KEY (idmaterias))\n",
 
             "CREATE TABLE notas (\n" +
             "  idnotas INT NOT NULL,\n" +
             "  fecha TEXT NOT NULL,\n" +
             "  puntaje INT NOT NULL,\n" +
-            "  materia TEXT NOT NULL,\n" +
-            "  alumno_idalumno INT NOT NULL,\n" +
+            "  mesa INT NOT NULL,\n" +
+            "  materias_idmaterias INT NOT NULL,\n" +
             "  PRIMARY KEY (idnotas))\n",
 
             "CREATE TABLE puntosparciales (\n" +
             "  idpuntosparciales INT NOT NULL,\n" +
             "  fecha TEXT NOT NULL,\n" +
             "  puntaje INT NOT NULL,\n" +
-            "  materia TEXT NOT NULL,\n" +
-            "  alumno_idalumno INT NOT NULL,\n" +
+            "  materias_idmaterias INT NOT NULL,\n" +
             "  PRIMARY KEY (idpuntosparciales))"
     };
 }

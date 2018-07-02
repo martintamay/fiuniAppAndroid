@@ -20,6 +20,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -30,8 +31,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.deysi.ingeapp.BaseDeDatos.ActionManager;
+import com.example.deysi.ingeapp.BaseDeDatos.Actualizador;
 import com.example.deysi.ingeapp.BaseDeDatos.BaseDatosManager;
+import com.example.deysi.ingeapp.BaseDeDatos.Datos;
 import com.example.deysi.ingeapp.R;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,22 +56,16 @@ public class LoginActivity extends AppCompatActivity {
     private static final int REQUEST_READ_CONTACTS = 0;
 
     /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "admin:admin", "deysi:deysi", "martin:martin", "pruebas:pruebas"
-    };
-    /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
-    private UserLoginTask mAuthTask = null;
+    //private UserLoginTask mAuthTask = null;
 
     // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private BaseDatosManager bd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +97,13 @@ public class LoginActivity extends AppCompatActivity {
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
 
-        BaseDatosManager bd = new BaseDatosManager(this);
+        bd = new BaseDatosManager(this);
+        Datos.ALUMNO = bd.getAlumno();
+
+        if (Datos.ALUMNO!=null) {
+            mEmailView.setText(Datos.ALUMNO.getCorreo());
+            mPasswordView.requestFocus();
+        }
     }
 
 
@@ -107,9 +114,9 @@ public class LoginActivity extends AppCompatActivity {
      * errors are presented and no actual login attempt is made.
      */
     private void attemptLogin() {
-        if (mAuthTask != null) {
+        /*if (mAuthTask != null) {
             return;
-        }
+        }*/
 
         // Reset errors.
         mEmailView.setError(null);
@@ -147,9 +154,31 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            showProgress(true);
+            Actualizador.loginAlumno(email, password, bd, new ActionManager(){
+                @Override
+                public void onExecute(Object obj) {
+                    if ((Boolean) obj) {
+                        LoginActivity.this.exito();
+                    } else {
+                        mPasswordView.setError(getString(R.string.error_incorrect_password));
+                        mPasswordView.requestFocus();
+                    }
+                }
+
+                @Override
+                public void onFail(JSONObject error) {
+                    try {
+                        if (error.getString("error") != null) {
+                            mPasswordView.setError(getString(R.string.error_incorrect_password));
+                            mPasswordView.requestFocus();
+                        }
+                    } catch (JSONException e) {
+                    }
+                }
+            });
+            /*showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+            mAuthTask.execute((Void) null);*/
         }
     }
 
@@ -208,6 +237,7 @@ public class LoginActivity extends AppCompatActivity {
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
+    /*
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mEmail;
@@ -260,6 +290,6 @@ public class LoginActivity extends AppCompatActivity {
             mAuthTask = null;
             showProgress(false);
         }
-    }
+    }*/
 }
 

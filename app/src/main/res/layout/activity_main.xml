@@ -12,31 +12,57 @@
     tools:context="com.example.deysi.ingeapp.Pantallas.MainActivity"
     android:weightSum="1">
 
-    <Button
-        android:layout_width="fill_parent"
+    <TextView
+        android:id="@+id/menu_info_tittle"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="PERFIL"
-        android:id="@+id/menu_b_perfil"
-        android:layout_marginTop="150dp"
-        android:layout_weight="0.05"
-        android:textColor="#FFFFFF"
-        android:backgroundTint="#cd0b0b" />
-
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/menu_b_notas"
         android:layout_weight="0.10"
-        android:text="NOTAS"
-        android:backgroundTint="#cd0b0b"
-        android:textColor="#FFFFFF" />
+        android:gravity="center_vertical|center"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
+        android:text="Cargando datos desde la web..."
+        android:textIsSelectable="false"
+        android:textSize="30sp"
+        android:textStyle="bold" />
 
     <Button
+        android:id="@+id/menu_b_perfil"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="NOTICIAS"
-        android:id="@+id/menu_b_noticias"
-        android:layout_weight="0.09"
+        android:layout_marginTop="150dp"
+        android:layout_weight="0.10"
         android:backgroundTint="#cd0b0b"
-        android:textColor="#FFFFFF" />
+        android:text="DATOS"
+        android:textColor="#FFFFFF"
+        android:visibility="gone" />
+
+    <ProgressBar
+        android:id="@+id/menu_progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.2"
+        android:clickable="false"
+        android:indeterminate="false"
+        android:visibility="visible" />
+
+    <Button
+        android:id="@+id/menu_b_notas"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.10"
+        android:backgroundTint="#cd0b0b"
+        android:text="NOTAS"
+        android:textColor="#FFFFFF"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/menu_b_noticias"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.10"
+        android:backgroundTint="#cd0b0b"
+        android:text="NOTICIAS"
+        android:textColor="#FFFFFF"
+        android:visibility="invisible" />
+
 </LinearLayout>

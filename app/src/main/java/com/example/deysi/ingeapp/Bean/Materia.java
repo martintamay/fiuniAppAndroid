@@ -5,11 +5,18 @@
  */
 package com.example.deysi.ingeapp.Bean;
 
+import android.content.ContentValues;
+
+import com.example.deysi.ingeapp.Bean.interfaces.Guardable;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  *
  * @author Martin
  */
-public class Materia extends Listable {
+public class Materia extends Listable implements Guardable {
     private final int id;
     private int semestre;
     private char carrera;
@@ -20,6 +27,20 @@ public class Materia extends Listable {
         this.semestre = semestre;
         this.carrera = carrera;
         this.nombre = nombre;
+    }
+
+    public Materia(int idmateria) {
+        id = idmateria;
+        semestre = 0;
+        carrera = 'N';
+        nombre = "Error de carrera";
+    }
+
+    public Materia(JSONObject jmateria) throws JSONException {
+        id = jmateria.getInt("id");
+        carrera = jmateria.has("career")?jmateria.getJSONObject("career").getString("description").charAt(0):'N';
+        semestre = jmateria.getInt("semester");
+        nombre = jmateria.getString("name");
     }
 
     @Override
@@ -69,6 +90,22 @@ public class Materia extends Listable {
 
     public int getId() {
         return id;
+    }
+
+
+    @Override
+    public String getTabla() {
+        return "materias";
+    }
+
+    @Override
+    public ContentValues getValues() {
+        ContentValues v = new ContentValues();
+        v.put("idmaterias", getId());
+        v.put("nombre", getNombre());
+        v.put("semestre", getSemestre());
+        v.put("carrera", carrera+"");
+        return v;
     }
 
     @Override

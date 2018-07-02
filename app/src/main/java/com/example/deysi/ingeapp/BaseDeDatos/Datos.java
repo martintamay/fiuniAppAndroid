@@ -8,5 +8,5 @@ import com.example.deysi.ingeapp.Bean.Alumno;
 
 public class Datos {
     public static Alumno ALUMNO = null;
-    public static final String SERVIDOR="http://localhost:3000/";
+    public static final String SERVIDOR="http://192.168.1.10:3000/api/";
 }

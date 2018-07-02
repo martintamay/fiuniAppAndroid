@@ -7,9 +7,12 @@ package com.example.deysi.ingeapp.Bean;
 
 import android.content.ContentValues;
 
+import com.example.deysi.ingeapp.BaseDeDatos.BaseDatosManager;
+import com.example.deysi.ingeapp.BaseDeDatos.DBHelper;
 import com.example.deysi.ingeapp.BaseDeDatos.Datos;
 import com.example.deysi.ingeapp.Bean.interfaces.Guardable;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -30,8 +33,24 @@ public class Nota extends Listable implements Guardable{
         this.mesa = mesa;
     }
 
-    public Nota(JSONObject jnota) {
-        //todo: agregar nota desde json
+    public Nota(int id, int idmateria, int nota, String fecha, int mesa) {
+        this(id, Datos.ALUMNO.getMateria(idmateria), nota, fecha, mesa);
+    }
+
+    public Nota(int id, Materia materia, int nota, String fecha) {
+        this(id, materia, nota, fecha, 0);
+    }
+
+    public Nota(int id, int idmateria, int nota, String fecha) {
+        this(id, Datos.ALUMNO.getMateria(idmateria), nota, fecha, 0);
+    }
+
+    public Nota(JSONObject jnota) throws JSONException {
+        id = jnota.getInt("id");
+        mesa = jnota.getInt("opportunity");
+        nota = jnota.getInt("score");
+        fecha = jnota.getString("takenDate");
+        materia = Datos.ALUMNO.getMateria(jnota.getJSONObject("taken").getInt("subject_id"));
     }
 
     public int getMesa() {
@@ -121,8 +140,8 @@ public class Nota extends Listable implements Guardable{
         v.put("idnotas", getId());
         v.put("fecha", getFecha());
         v.put("puntaje", getNota());
-        v.put("materia", getMateria());
-        v.put("alumno_idalumno", Datos.ALUMNO.getId());
+        v.put("mesa", getMesa());
+        v.put("materias_idmaterias", materia.getId());
         return v;
     }
 }
